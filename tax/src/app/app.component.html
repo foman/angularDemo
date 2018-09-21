@@ -1,0 +1,45 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Personal tax
+  </h1>
+</div>
+<div class="container">
+  <div class="row ">
+    <span class="label">Earn</span>
+    <div class="col-md-6">
+      <input type="text" class="form-control" [(ngModel)]="earns">
+    </div>
+    <div class="col-md-2">
+      <button class="btn float-left btn-primary" (click)="onCompute()">Compute</button>
+    </div>
+  </div>
+  <table class="mt-1 table">
+    <thead>
+      <tr>
+        <th scope="col">Level</th>
+        <th scope="col">Range</th>
+        <th scope="col">Rate</th>
+        <th scope="col">Tax</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let level of taxTable18.getTaxLevels();let i=index">
+        <th scope="col">{{i}}</th>
+        <td scope="col">{{level.minimum}}-{{level.maximum == Max_Value ? '∞':level.maximum}}</td>
+        <td scope="col">{{level.rate}}</td>
+        <td scope="col">{{paidTaxes[i]}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Total</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">{{totalTax}}</th>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+
+  </div>
+</div>

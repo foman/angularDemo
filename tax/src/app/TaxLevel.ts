@@ -16,11 +16,9 @@ export class TaxLevel {
     calculate(m: number) {
         if (m > this.maximum) {
             return this.fullLevelTax;
-        }
-        else if (m > this.minimum) {
+        } else if (m > this.minimum) {
             return (m - this.minimum) * this.rate;
-        }
-        else {
+        } else {
             return 0;
         }
     }

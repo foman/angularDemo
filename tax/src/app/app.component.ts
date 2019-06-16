@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { TaxTable } from './TaxTable';
-import { Tax18 } from './Tax18';
-import { NullViewportScroller } from '@angular/common/src/viewport_scroller';
+import { AccTax } from './AccTax';
+import { TaxLevelResult } from './TaxLevelResult';
+import { TaxLevel } from './TaxLevel';
+import { NonAccTax } from './NonAccTax';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +11,40 @@ import { NullViewportScroller } from '@angular/common/src/viewport_scroller';
 })
 export class AppComponent {
   title = 'tax';
-  taxTable18: TaxTable = new TaxTable();
-  earns: number;
+  bonuxTax: NonAccTax = new NonAccTax();
+  accTax: AccTax = new AccTax();
   paidTaxes: number[] = [];
-  totalTax: number = 0;
+  paidAccumlatedTaxes: TaxLevelResult[] = [];
+  totalTax = 0;
   Max_Value = Number.MAX_VALUE;
+  monthlyEarns: 0;
+  bonus = 0;
+  bonusTax: TaxLevelResult;
+  socialFlareRate = 0.175;
 
   constructor() {
-    this.taxTable18.load(Tax18);
+    this.bonuxTax.load();
+    this.accTax.load(this.socialFlareRate);
+    this.bonusTax = null;
+  }
+
+  clear() {
+    this.paidAccumlatedTaxes = [];
+    this.totalTax = 0;
+    this.accTax.clear();
+    this.bonusTax = null;
   }
 
   onCompute() {
-    this.paidTaxes = this.taxTable18.calculate(this.earns);
-    this.totalTax = 0;
-    for (let i in this.paidTaxes) {
-      this.totalTax += this.paidTaxes[i];
+    this.clear();
+    for (let i = 0; i < 12; i++) {
+      const result = this.accTax.calculate(this.monthlyEarns);
+      this.totalTax += result.paidTax;
+      this.paidAccumlatedTaxes.push(result);
     }
+
+    this.bonusTax = this.bonuxTax.calculate(this.bonus / 12);
+    this.bonusTax.accIncome = this.accTax.accumlatedIncome + this.bonus;
+    this.totalTax += this.bonusTax.paidTax;
   }
 }

@@ -1,45 +1,63 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Personal tax
+    Personal income tax
   </h1>
 </div>
 <div class="container">
-  <div class="row ">
-    <span class="label">Earn</span>
-    <div class="col-md-6">
-      <input type="text" class="form-control" [(ngModel)]="earns">
+  <div>
+    <div class="form-group">
+      <label class="col-form-label" for="fareRate">五险一金</label>
+      <div class="">
+        <input type="number" class="form-control" id="fareRate" placeholder="17.5">
+      </div>
     </div>
-    <div class="col-md-2">
-      <button class="btn float-left btn-primary" (click)="onCompute()">Compute</button>
+    <div class="row form-group">
+      <label class="col-form-label">Monthly Earn</label>
+      <div class="col-md-4 ">
+        <input type="number" class="form-control" [(ngModel)]="monthlyEarns" (keyup.enter)="onCompute()">
+      </div>
+      <label class="col-form-label">Bonus</label>
+      <div class="col-md-4 ">
+        <input type="number" class="form-control" [(ngModel)]="bonus" (keyup.enter)="onCompute()">
+      </div>
+      <button class="btn ml-1 btn-primary" (click)="onCompute()">Compute</button>
     </div>
   </div>
-  <table class="mt-1 table">
+
+  <table class="mt-2 table">
     <thead>
       <tr>
-        <th scope="col">Level</th>
+        <th scope="col">Month</th>
+        <th scope="col">Acc Income</th>
         <th scope="col">Range</th>
         <th scope="col">Rate</th>
         <th scope="col">Tax</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let level of taxTable18.getTaxLevels();let i=index">
-        <th scope="col">{{i}}</th>
-        <td scope="col">{{level.minimum}}-{{level.maximum == Max_Value ? '∞':level.maximum}}</td>
-        <td scope="col">{{level.rate}}</td>
-        <td scope="col">{{paidTaxes[i]}}</td>
+      <tr *ngFor="let tax of paidAccumlatedTaxes;let i=index">
+        <th scope="col">{{i+1}}</th>
+        <th scope="col">{{tax.accIncome}}</th>
+        <td scope="col">{{tax.level.minimum}}-{{tax.level.maximum == Max_Value ? '∞':tax.level.maximum}}</td>
+        <td scope="col">{{tax.level.rate}}</td>
+        <td scope="col">{{tax.paidTax}}</td>
+      </tr>
+      <tr *ngIf="bonusTax != null">
+        <th scope="col">Bonus</th>
+        <th scope="col">{{bonusTax.accIncome}}</th>
+        <td scope="col">
+          {{bonusTax.level.minimum}}-{{bonusTax.level.maximum == Max_Value ? '∞':bonusTax.level.maximum}}</td>
+        <td scope="col">{{bonusTax.level.rate}}</td>
+        <td scope="col">{{bonusTax.paidTax.toFixed(2)}}</td>
       </tr>
       <tr>
         <th scope="col">Total</th>
         <th scope="col"></th>
         <th scope="col"></th>
-        <th scope="col">{{totalTax}}</th>
+        <th scope="col"></th>
+        <th scope="col">{{totalTax.toFixed(2)}}</th>
       </tr>
     </tbody>
   </table>
-
-  <div>
-
-  </div>
 </div>

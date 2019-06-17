@@ -9,14 +9,20 @@ export class AccTax {
     taxTable: ITaxTable;
     accumlatedIncome = 0;
     socailFlareRate = 0;
+    otherDeduction = 0;
 
-    load(flareRate: number) {
+    load(flareRate: number, otherDeduction: number) {
         this.taxTable = new AcculatedTaxTable19();
         for (const level of this.taxTable.texLevels) {
             this.taxLevels.push(CreateTaxLevel(level));
         }
 
         this.socailFlareRate = flareRate;
+        this.otherDeduction = otherDeduction;
+    }
+
+    setOtherDeduction(m: number) {
+        this.otherDeduction = m;
     }
 
     getTaxLevels(): TaxLevel[] {
@@ -41,7 +47,7 @@ export class AccTax {
     }
 
     getTaxDeduction(m: number) {
-        return m * (1 - this.socailFlareRate) - this.taxTable.deduction;
+        return m * (1 - this.socailFlareRate) - this.taxTable.deduction - this.otherDeduction;
     }
 
     clear() {

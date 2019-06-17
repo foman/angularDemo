@@ -21,10 +21,11 @@ export class AppComponent {
   bonus = 0;
   bonusTax: TaxLevelResult;
   socialFlareRate = 0.175;
+  otherDeduction = 0;
 
   constructor() {
     this.bonuxTax.load();
-    this.accTax.load(this.socialFlareRate);
+    this.accTax.load(this.socialFlareRate, this.otherDeduction);
     this.bonusTax = null;
   }
 
@@ -36,6 +37,7 @@ export class AppComponent {
   }
 
   onCompute() {
+    this.accTax.setOtherDeduction(this.otherDeduction);
     this.clear();
     for (let i = 0; i < 12; i++) {
       const result = this.accTax.calculate(this.monthlyEarns);

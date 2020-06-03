@@ -31,6 +31,6 @@ jobs:
       run: |
         echo Add other actions to build,
         cd tax
-        npm install -g @angular/cli
-        npm install
-        npm run build
+        sudo npm install -g @angular/cli
+        sudo npm install
+        sudo npm run build

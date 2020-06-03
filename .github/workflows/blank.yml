@@ -30,4 +30,7 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
-        ng build
+        cd tax
+        npm install -g @angular/cli
+        npm install
+        ng build --prod
